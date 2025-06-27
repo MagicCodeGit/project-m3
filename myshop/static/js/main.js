@@ -192,3 +192,124 @@ document.addEventListener('DOMContentLoaded', function() {
         updateView();
     }
 });
+
+// --- 8. Логика для страницы корзины ---
+document.addEventListener('DOMContentLoaded', function() {
+    const cartItemsList = document.getElementById('cart-items-list');
+    const cartTotalPriceElem = document.getElementById('cart-total-price');
+
+    function updateCartTotal() {
+        let total = 0;
+        const cartItems = document.querySelectorAll('.cart-item');
+
+        cartItems.forEach(item => {
+            const itemTotalPrice = parseFloat(item.querySelector('[data-item-total-price]').textContent.replace('$', ''));
+            total += itemTotalPrice;
+        });
+
+        if (cartTotalPriceElem) {
+            cartTotalPriceElem.textContent = `$${total.toFixed(2)}`;
+        }
+    }
+
+    if (cartItemsList) {
+        cartItemsList.addEventListener('click', function(event) {
+            const target = event.target;
+            const cartItem = target.closest('.cart-item');
+            if (!cartItem) return;
+
+            const quantityValueElem = cartItem.querySelector('.quantity-value-cart');
+            const itemTotalPriceElem = cartItem.querySelector('[data-item-total-price]');
+            const basePrice = parseFloat(cartItem.dataset.price);
+            let quantity = parseInt(quantityValueElem.textContent);
+
+            // Обработка кнопок +/-
+            if (target.closest('[data-action="increase"]')) {
+                quantity++;
+            } else if (target.closest('[data-action="decrease"]')) {
+                if (quantity > 1) {
+                    quantity--;
+                } else {
+                    // Если количество <= 1, удаляем товар
+                    cartItem.remove();
+                }
+            }
+
+            // Обработка кнопки "Remove"
+            if(target.closest('[data-action="remove"]')) {
+                cartItem.remove();
+            }
+
+            // Обновляем значения в карточке
+            quantityValueElem.textContent = quantity;
+            itemTotalPriceElem.textContent = `$${(basePrice * quantity).toFixed(2)}`;
+
+            // Обновляем общую сумму
+            updateCartTotal();
+        });
+
+        // Первоначальный подсчет при загрузке
+        updateCartTotal();
+    }
+});
+
+// --- 9. Логика для табов на странице аккаунта ---
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.account-tab');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Убираем active классы у всех
+            tabs.forEach(item => item.classList.remove('active'));
+            tabPanes.forEach(pane => pane.classList.remove('active'));
+
+            // Добавляем active классы нужным
+            const targetPaneId = this.dataset.tabTarget;
+            const targetPane = document.querySelector(targetPaneId);
+
+            this.classList.add('active');
+            if(targetPane) {
+                targetPane.classList.add('active');
+            }
+        });
+    });
+});
+
+// --- 10. Логика для табов в Админ-панели ---
+document.addEventListener('DOMContentLoaded', function() {
+    const adminTabs = document.querySelectorAll('.admin-tab');
+    if (adminTabs.length > 0) {
+        // Мы можем переиспользовать тот же код, что и для табов аккаунта
+        const adminTabPanes = document.querySelectorAll('.admin-tab-pane'); // Предполагаем, что у панелей будет этот класс
+        adminTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                adminTabs.forEach(item => item.classList.remove('active'));
+                // adminTabPanes.forEach(pane => pane.classList.remove('active')); // Пока панелей нет, комментируем
+
+                this.classList.add('active');
+                // const targetPaneId = this.dataset.tabTarget;
+                // const targetPane = document.querySelector(targetPaneId);
+                // if(targetPane) {
+                //     targetPane.classList.add('active');
+                // }
+            });
+        });
+    }
+});
+
+
+// --- 11. Логика для тегов категорий в админке ---
+document.addEventListener('DOMContentLoaded', function() {
+    const categoryTagsContainer = document.querySelector('.category-tags');
+    if (categoryTagsContainer) {
+        const categoryTags = categoryTagsContainer.querySelectorAll('.category-tag');
+        categoryTags.forEach(tag => {
+            tag.addEventListener('click', function() {
+                // Логика для выбора только одной категории
+                categoryTags.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    }
+});

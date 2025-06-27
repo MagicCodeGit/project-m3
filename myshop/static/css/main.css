@@ -1,0 +1,1140 @@
+/* CSS Variables for Colors and Fonts */
+:root {
+    --black-main: #111d13;
+    --grey-text: #757575;
+    --border-default: #d9d9d9;
+    --slate-200: #e3e3e3;
+    --black-200: rgba(12, 12, 13, 0.1);
+    --black-100: rgba(12, 12, 13, 0.05);
+    --background-grey: #fff;
+    --border-dark-grey: #767676;
+    --white-text: #f5f5f5;
+    --background-default: #f5f5f5;
+    --background: #fff;
+    --dark-green: #31572c;
+    --green: #02542d;
+    --background-green: #cff7d3;
+    --background-header: #fff;
+
+    --font-family: "Inter", sans-serif;
+}
+
+/* Base styles */
+body {
+    font-family: var(--font-family);
+    color: var(--black-main);
+    background-color: var(--background);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+/* Container */
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 64px;
+}
+
+/* Header styles */
+header {
+    width: 100%;
+    height: 100px;
+    padding: 32px 64px;
+    background-color: var(--background-header);
+    border-bottom: 1px solid var(--border-default);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-container {
+    width: 100%;
+    max-width: 1312px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__logo {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.header__logo img {
+    width: 26px;
+    height: 37.52px;
+    border-radius: 8px;
+}
+
+.header__logo .logo-text {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--black-main);
+}
+
+.header__nav ul {
+    width: 640px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__nav a {
+    padding: 8px;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--black-main);
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.header__nav a:hover {
+    color: var(--dark-green);
+}
+
+.header__auth-buttons {
+    width: 192px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.button {
+    flex: 1 1 0%;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 1;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+.button--secondary {
+    background-color: var(--border-default);
+    border: 1px solid var(--border-dark-grey);
+    color: var(--black-main);
+}
+
+.button--secondary:hover {
+    background-color: var(--slate-200);
+}
+
+.button--primary {
+    background-color: var(--green);
+    border: 1px solid var(--green);
+    color: var(--white-text);
+}
+
+.button--primary:hover {
+    background-color: var(--dark-green);
+    border-color: var(--dark-green);
+}
+
+/* Hero Banner */
+.hero-banner {
+    position: relative;
+    max-width: 1312px;
+    margin: 0 auto 32px;
+    height: 400px;
+    overflow: hidden;
+    padding: 0 64px;
+}
+
+/*.hero-banner {*/
+/*    position: relative;*/
+/*    width: 100%;*/
+/*    height: 400px;*/
+/*    overflow: hidden;*/
+/*    margin-bottom: 32px;*/
+/*}*/
+
+.hero-banner__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 8px;
+}
+
+.hero-banner__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+}
+
+/* Main Content Grid */
+.main-content-grid {
+    display: grid;
+    grid-template-columns: 304px 1fr;
+    gap: 32px;
+    align-items: flex-start;
+    padding-bottom: 64px;
+}
+
+/* Sidebar */
+.sidebar {
+    padding: 16px;
+    background-color: var(--background-default);
+    border-radius: 8px;
+    border: 1px solid var(--border-default);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.sidebar__section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.section-title {
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--black-main);
+}
+
+.keywords-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.keyword-tag {
+    padding: 8px;
+    background-color: var(--background-green);
+    color: var(--green);
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.remove-keyword-icon {
+    cursor: pointer;
+    color: inherit;
+    font-size: 12px;
+}
+
+/* Custom Checkboxes */
+.checkbox-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--black-main);
+    user-select: none;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: var(--background-grey);
+    border: 1px solid var(--border-default);
+    border-radius: 4px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: var(--green);
+    border-color: var(--green);
+}
+
+.checkmark:after {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    content: "\f00c";
+    position: absolute;
+    display: none;
+    color: white;
+    font-size: 10px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Search & Sort Bar */
+.search-sort-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 48px;
+}
+
+.search-input-wrapper {
+    flex: 1 1 0;
+    max-width: 327px;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    height: 40px;
+    padding: 12px 40px 12px 16px;
+    border: 1px solid var(--border-default);
+    border-radius: 9999px;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--black-main);
+    background-color: var(--background-default);
+}
+
+.search-input::placeholder {
+    color: #b3b3b3;
+}
+
+.search-button {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--grey-text);
+    font-size: 16px;
+    padding: 0;
+}
+
+.sort-options {
+    display: flex;
+    gap: 8px;
+}
+
+.sort-button {
+    padding: 8px;
+    background-color: var(--background-grey);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--grey-text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sort-button.active-sort {
+    background-color: var(--green);
+    border-color: var(--green);
+    color: var(--white-text);
+}
+
+/* Product Grid */
+.product-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.product-card {
+    padding: 16px;
+    background-color: var(--background-default);
+    border-radius: 8px;
+    border: 1px solid var(--border-default);
+    box-shadow: 0 2px 5px var(--black-100);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px var(--black-200);
+}
+
+.product-card__image {
+    width: 100%;
+    height: 247px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-card__info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.product-card__name {
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--black-main);
+    font-weight: 600;
+}
+
+.product-card__price {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--black-main);
+}
+
+.product-card__description {
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--grey-text);
+}
+
+/* Pagination */
+.pagination {
+    width: 100%;
+    margin-top: 48px;
+    background-color: var(--background-default);
+    border-radius: 16px;
+    border: 1px solid var(--border-default);
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.pagination-list {
+    display: flex;
+    gap: 8px;
+    margin: 0 16px;
+}
+
+.pagination__link {
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--black-main);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.pagination__link--prev,
+.pagination__link--next {
+    color: var(--grey-text);
+    opacity: 0.5;
+}
+
+.pagination__link--prev:hover,
+.pagination__link--next:hover {
+    opacity: 1;
+    color: var(--black-main);
+}
+
+.pagination__link:hover:not(.active) {
+    background-color: #e0e0e0;
+}
+
+.pagination__link.active {
+    background-color: var(--black-main);
+    color: var(--white-text);
+}
+
+.pagination__dots {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--black-main);
+    padding: 8px 12px;
+}
+
+/* Footer */
+footer {
+    width: 100%;
+    padding: 48px 64px 24px 64px;
+    background-color: var(--black-main);
+    color: var(--white-text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+}
+
+.footer__hops-logo {
+    width: 483.92px;
+    height: 263.53px;
+}
+
+.footer__nav {
+    width: 640px;
+    height: 37px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer__nav ul {
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer__nav a {
+    font-size: 16px;
+    line-height: 1;
+    color: var(--white-text);
+    padding: 8px;
+    transition: opacity 0.2s ease;
+}
+
+.footer__nav a:hover {
+    opacity: 0.8;
+}
+
+.footer__copyright {
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--white-text);
+}
+
+/* Link wrapper for product cards */
+.product-card-link {
+    text-decoration: none; /* Убираем стандартное подчеркивание ссылки */
+}
+
+
+/*
+========================================
+    Register Page Specific Styles (
+========================================
+*/
+.auth-page-wrapper {
+    position: relative;
+    width: 100%;
+    height: 757px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.auth-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.auth-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.auth-form-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Form Register - основной контейнер формы */
+.auth-container--register {
+    width: 416px;
+    height: auto; /* Высота будет определяться содержимым */
+    padding: 24px;
+    background: var(--background-default);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрируем auth-switch */
+    gap: 24px;
+}
+
+/* Legend - заголовок "Register" */
+.Legend {
+    width: 100%; /* Занимает всю ширину родителя (368px) */
+    align-self: stretch;
+}
+
+.auth-title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--black-main);
+}
+
+/* auth-form - сама форма */
+.auth-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* Отступы между полями */
+}
+
+/* InputField - контейнер для label и input */
+.InputField {
+    width: 100%; /* 368px */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.InputField label {
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--black-main);
+    font-weight: 500;
+}
+
+/* Input - поле для ввода */
+.Input {
+    width: 100%;
+    height: 40px; /* Из дизайна */
+    padding: 12px 16px; /* Из дизайна */
+    background-color: var(--background-grey);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--grey-text); /* Цвет плейсхолдера из дизайна */
+}
+
+.Input:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(2, 84, 45, 0.2);
+}
+
+/* CheckboxField - контейнер для чекбокса */
+.CheckboxField {
+    width: 100%; /* 368px */
+}
+
+.CheckboxField .checkbox-container {
+    margin-bottom: 0; /* Убираем лишний отступ */
+    font-size: 16px;
+    line-height: 1;
+    color: var(--black-main);
+}
+
+/* ButtonGroup - контейнер для кнопки */
+.ButtonGroup {
+    width: 100%; /* 368px */
+}
+
+.ButtonGroup .button {
+    width: 100%;
+    height: 40px; /* Из дизайна */
+    padding: 12px;
+}
+
+/* auth-switch - ссылка "Already have an account?" */
+.auth-switch {
+    margin-top: 0; /* Отступы теперь контролируются через gap родителя */
+    font-size: 14px;
+    color: var(--grey-text);
+}
+
+/*
+========================================
+    Auth Pages General & Register Styles
+========================================
+*/
+
+/* ... здесь все ваши существующие стили для .auth-page-wrapper, .auth-container--register, и т.д. ... */
+
+
+/*
+========================================
+    Login Page Specific Styles
+========================================
+*/
+
+/* Используем те же стили, что и для формы регистрации */
+.auth-container--login {
+    width: 416px;
+    padding: 24px;
+    background: var(--background-default);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+/* Переопределяем форму, чтобы отступы были другие */
+.auth-container--login .auth-form {
+    gap: 24px; /* Отступ между полями и кнопкой */
+}
+
+/* Стили для ссылки "Forgot password?" */
+.TextLink {
+    width: 100%; /* 368px */
+    text-align: left; /* Выравнивание по левому краю */
+}
+
+.TextLink a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green);
+    text-decoration: none;
+    transition: text-decoration 0.2s ease;
+}
+
+.TextLink a:hover {
+    text-decoration: underline;
+}
+
+
+/*
+========================================
+    Forgot Password Page Specific Styles
+========================================
+*/
+.auth-container--forgot-password {
+    width: 416px;
+    padding: 24px;
+    background: var(--background-default);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-container--forgot-password .auth-form {
+    gap: 24px;
+}
+
+.ButtonGroup--center {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Специфичные стили для кнопок в этой форме */
+.ButtonGroup--center .button {
+    flex: 1 1 0;
+    padding: 12px;
+    height: 40px;
+}
+
+/* Кнопка Cancel */
+.button--cancel {
+    background-color: transparent;
+    color: var(--black-main);
+    font-weight: 500;
+    border: 1px solid var(--border-dark-grey);
+}
+
+.button--cancel:hover {
+    background-color: var(--slate-200);
+}
+
+
+/*
+========================================
+    Header User Actions (Logged-in state)
+========================================
+*/
+.header__user-actions {
+    display: none; /* По умолчанию скрыт */
+    align-items: center;
+    gap: 24px; /* Отступ из дизайна */
+}
+
+.user-icon, .cart-icon {
+    display: block;
+    width: 38px; /* Из дизайна */
+    height: 38px; /* Из дизайна */
+}
+
+.user-icon img, .cart-icon img {
+    width: 100%;
+    height: 100%;
+}
+
+.button--logout {
+    background-color: transparent;
+    border: 1px solid var(--border-dark-grey);
+    color: var(--black-main);
+    padding: 8px 16px; /* Немного изменим паддинги для компактности */
+}
+
+/*
+========================================
+    Logic for Hiding/Showing Auth Blocks
+========================================
+*/
+
+/* Когда пользователь не залогинен (по умолчанию) */
+body:not(.user-logged-in) .header__user-actions {
+    display: none;
+}
+body:not(.user-logged-in) .header__auth-buttons {
+    display: flex; /* Показываем кнопки Sign in / Register */
+}
+
+/* Когда пользователь залогинен (добавляем класс на body) */
+body.user-logged-in .header__auth-buttons {
+    display: none; /* Скрываем кнопки Sign in / Register */
+}
+body.user-logged-in .header__user-actions {
+    display: flex; /* Показываем иконки пользователя и корзины */
+}
+
+
+/*
+========================================
+    Product Detail Page Styles (Corrected)
+========================================
+*/
+.page-product {
+    background-color: var(--background-grey);
+    padding: 64px 0; /* Только вертикальные отступы */
+}
+
+/* Все секции внутри .container будут иметь общий отступ */
+.page-product .container > section {
+    margin-bottom: 64px;
+}
+.page-product .container > section:last-child {
+    margin-bottom: 0;
+}
+
+/* --- Product Details Section --- */
+.product-details-section {
+    display: flex;
+    gap: 32px;
+}
+
+.product-image-container {
+    width: 640px;
+    height: 484px;
+    flex-shrink: 0;
+}
+
+.product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-info-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex-grow: 1;
+}
+
+.product-title-price {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.product-name {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--black-main);
+}
+
+.price-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.price-tag {
+    font-size: 16px;
+    line-height: 1;
+    color: var(--green);
+    background-color: var(--background-green);
+    padding: 8px;
+    border-radius: 8px;
+    align-self: flex-start;
+}
+
+.product-price {
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--black-main);
+}
+
+.product-description {
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--black-main);
+    display: flex;
+    flex-direction: column;
+    gap: 1em; /* Отступ между параграфами */
+}
+
+/* Кнопка "Add to Cart" (Исправлено) */
+.add-to-cart-button {
+    width: 304px; /* Из дизайна */
+    height: 40px; /* Из дизайна */
+    padding: 12px; /* Из дизайна */
+    gap: 8px;
+}
+
+.add-to-cart-button .fa-check {
+    display: none;
+}
+.add-to-cart-button.is-added {
+    background-color: var(--dark-green);
+    cursor: default;
+}
+.add-to-cart-button.is-added .fa-cart-shopping {
+    display: none;
+}
+.add-to-cart-button.is-added .fa-check {
+    display: inline-block;
+}
+
+/* --- Accordion Section  --- */
+.accordion-section {
+}
+
+.accordion-item {
+    width: 640px; /* Фиксированная ширина из дизайна */
+    background-color: white;
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    padding: 24px;
+}
+
+.accordion-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+}
+
+.accordion-title h3 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #1e1e1e;
+}
+
+.accordion-icon {
+    transition: transform 0.3s ease;
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding-top 0.3s ease;
+}
+.accordion-content ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.accordion-content li {
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.accordion-item.active .accordion-content {
+    max-height: 500px;
+    padding-top: 16px;
+}
+.accordion-item.active .accordion-icon {
+    transform: rotate(180deg);
+}
+
+/* --- Reviews Section --- */
+.reviews-section {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.reviews-title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--black-main);
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Адаптивная сетка */
+    gap: 32px;
+}
+
+.review-card {
+    padding: 24px;
+    background-color: var(--background-default);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.review-rating {
+    display: flex;
+    gap: 4px;
+    color: #FFC107;
+    font-size: 20px;
+}
+
+.review-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.review-heading {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #1e1e1e;
+}
+
+.review-text {
+    font-size: 16px;
+    line-height: 1.4;
+    color: #1e1e1e;
+}
+
+.review-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.author-name {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--grey-text);
+}
+
+/*
+========================================
+    Cart Controls & Quantity Counter
+========================================
+*/
+.cart-controls {
+    width: 304px; /* Контейнер имеет ту же ширину, что и кнопка */
+    height: 40px; /* и ту же высоту */
+}
+
+/* Скрываем элемент с этим классом */
+.is-hidden {
+    display: none !important; /* !important, чтобы перебить другие display-свойства */
+}
+
+/* Стили для счетчика */
+.quantity-counter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-default);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    padding: 0 12px;
+}
+
+.quantity-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: var(--black-main);
+    transition: background-color 0.2s ease;
+}
+
+.quantity-btn:hover {
+    background-color: var(--slate-200);
+}
+
+.quantity-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark-green);
+}

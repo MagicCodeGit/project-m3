@@ -1,315 +1,230 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // --- 1. Логика для кнопок сортировки (Sort Options) ---
-    const sortButtons = document.querySelectorAll('.sort-options .sort-button');
-    sortButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            sortButtons.forEach(btn => btn.classList.remove('active-sort'));
-            this.classList.add('active-sort');
+    // --- General logic for all pages (Login/Logout Simulation) ---
+    const loginForm = document.getElementById('login-form');
+    const logoutButton = document.getElementById('logout-button');
+    function checkLoginStatus() {
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            document.body.classList.add('user-logged-in');
+        } else {
+            document.body.classList.remove('user-logged-in');
+        }
+    }
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            localStorage.setItem('isLoggedIn', 'true');
+            const nextUrl = new URLSearchParams(window.location.search).get('next');
+            window.location.href = nextUrl || 'home.html';
         });
-    });
-
-    // --- 2. Логика для пагинации (Pagination) ---
-    const paginationLinks = document.querySelectorAll('.pagination-list .pagination__link');
-    paginationLinks.forEach(link => {
-        link.addEventListener('click', function(event) {
-            event.preventDefault();
-            paginationLinks.forEach(lnk => lnk.classList.remove('active'));
-            this.classList.add('active');
+    }
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('isLoggedIn');
+            // Перенаправляем на главную страницу после выхода
+            window.location.href = 'home.html';
         });
-    });
+    }
+    checkLoginStatus();
 
-    // --- 3. Логика для удаления тегов фильтра (Keywords) ---
-    const keywordsList = document.querySelector('.keywords-list');
-    if (keywordsList) {
-        keywordsList.addEventListener('click', function(event) {
-            if (event.target.classList.contains('remove-keyword-icon')) {
-                const keywordTag = event.target.closest('.keyword-tag');
-                if (keywordTag) {
-                    // Перед удалением тега, снимем соответствующий чекбокс
-                    const keywordText = keywordTag.textContent.trim().slice(0, -1).trim(); // "Hops X" -> "Hops"
-                    const checkbox = document.querySelector(`input[data-keyword="${keywordText}"]`);
+
+    // --- Logic for the Main Page (home.html) ---
+    const homePageContent = document.querySelector('.main-content-grid');
+    if (homePageContent) {
+        // 1. Sort Options Logic
+        const sortButtons = document.querySelectorAll('.sort-options .sort-button');
+        sortButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                sortButtons.forEach(btn => btn.classList.remove('active-sort'));
+                this.classList.add('active-sort');
+            });
+        });
+
+        // 2. Pagination Logic
+        const paginationList = document.querySelector('.pagination-list');
+        if (paginationList) {
+            const paginationLinks = paginationList.querySelectorAll('.pagination__link');
+            paginationLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    paginationLinks.forEach(lnk => lnk.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        }
+
+        // 3. Filter Logic (Keywords and Checkboxes)
+        const keywordsList = document.querySelector('.keywords-list');
+        const checkboxes = document.querySelectorAll('.checkbox-group input[type="checkbox"]');
+
+        if (keywordsList && checkboxes.length > 0) {
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const keyword = this.dataset.keyword;
+                    if (this.checked) {
+                        if (!document.querySelector(`.keyword-tag[data-keyword="${keyword}"]`)) {
+                            const newTag = document.createElement('span');
+                            newTag.className = 'keyword-tag';
+                            newTag.setAttribute('data-keyword', keyword);
+                            newTag.innerHTML = `${keyword} <i class="fa-solid fa-xmark remove-keyword-icon"></i>`;
+                            keywordsList.appendChild(newTag);
+                        }
+                    } else {
+                        const tagToRemove = document.querySelector(`.keyword-tag[data-keyword="${keyword}"]`);
+                        if (tagToRemove) {
+                            tagToRemove.remove();
+                        }
+                    }
+                });
+            });
+
+            keywordsList.addEventListener('click', function(event) {
+                const keywordIcon = event.target.closest('.remove-keyword-icon');
+                if (keywordIcon) {
+                    const keywordTag = keywordIcon.closest('.keyword-tag');
+                    const keywordText = keywordTag.dataset.keyword;
+                    const checkbox = document.querySelector(`.checkbox-container input[data-keyword="${keywordText}"]`);
                     if (checkbox) {
                         checkbox.checked = false;
                     }
                     keywordTag.remove();
                 }
-            }
-        });
-    }
-
-    // --- 4. Логика для чекбоксов и синхронизации с Keywords ---
-    const checkboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]');
-    checkboxes.forEach(checkbox => {
-        // Присваиваем data-атрибут каждому чекбоксу для легкой идентификации
-        const labelText = checkbox.closest('.checkbox-container').textContent.trim();
-        checkbox.setAttribute('data-keyword', labelText);
-
-        // Слушаем событие 'change', которое срабатывает при клике на чекбокс
-        checkbox.addEventListener('change', function() {
-            const keyword = this.getAttribute('data-keyword');
-
-            if (this.checked) {
-                // Если чекбокс был отмечен, добавляем тег
-                addKeywordTag(keyword);
-            } else {
-                // Если с чекбокса сняли галочку, удаляем тег
-                removeKeywordTag(keyword);
-            }
-        });
-    });
-
-    function addKeywordTag(keywordText) {
-        // Проверяем, не существует ли уже такой тег
-        if (document.querySelector(`.keyword-tag[data-keyword="${keywordText}"]`)) {
-            return;
-        }
-
-        // Создаем HTML для нового тега
-        const newTag = document.createElement('span');
-        newTag.className = 'keyword-tag';
-        newTag.setAttribute('data-keyword', keywordText);
-        newTag.innerHTML = `${keywordText} <i class="fa-solid fa-xmark remove-keyword-icon"></i>`;
-
-        // Добавляем новый тег в список
-        keywordsList.appendChild(newTag);
-    }
-
-    function removeKeywordTag(keywordText) {
-        // Находим тег по data-атрибуту и удаляем его
-        const tagToRemove = document.querySelector(`.keyword-tag[data-keyword="${keywordText}"]`);
-        if (tagToRemove) {
-            tagToRemove.remove();
+            });
         }
     }
 
-});
-
-// --- 5. Логика симуляции входа и выхода ---
-document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.getElementById('login-form');
-    const logoutButton = document.getElementById('logout-button');
-    const body = document.body;
-
-    // Функция для проверки состояния входа при загрузке страницы
-    function checkLoginStatus() {
-        if (localStorage.getItem('isLoggedIn') === 'true') {
-            body.classList.add('user-logged-in');
-        } else {
-            body.classList.remove('user-logged-in');
+    // --- Logic for Product Detail Pages (product-*.html) ---
+    const productPageContent = document.querySelector('.page-product');
+    if (productPageContent) {
+        // Accordion
+        const accordionTitle = document.querySelector('.accordion-title');
+        if (accordionTitle) {
+            accordionTitle.addEventListener('click', function() {
+                this.closest('.accordion-item').classList.toggle('active');
+            });
         }
-    }
-
-    // Симуляция входа: при отправке формы на странице login.html
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Отменяем реальную отправку формы
-
-            // "Запоминаем" состояние входа в локальном хранилище браузера
-            localStorage.setItem('isLoggedIn', 'true');
-
-            // Перенаправляем на главную страницу
-            window.location.href = 'home.html';
-        });
-    }
-
-    // Симуляция выхода: при клике на кнопку Logout
-    if (logoutButton) {
-        logoutButton.addEventListener('click', function(event) {
-            event.preventDefault();
-
-            // "Забываем" состояние входа
-            localStorage.removeItem('isLoggedIn');
-
-            // Обновляем вид хедера и перезагружаем страницу для чистоты
-            checkLoginStatus();
-            // window.location.reload(); // Можно перезагрузить, чтобы все сбросилось
-        });
-    }
-
-    // Проверяем статус при каждой загрузке страницы
-    checkLoginStatus();
-});
-
-// --- 6. Логика для аккордеона ---
-document.addEventListener('DOMContentLoaded', function() {
-    const accordionTitle = document.querySelector('.accordion-title');
-    if (accordionTitle) {
-        accordionTitle.addEventListener('click', function() {
-            const accordionItem = this.closest('.accordion-item');
-            accordionItem.classList.toggle('active');
-        });
-    }
-});
-
-// --- 7. Логика для кнопки "Add to Cart" и счетчика ---
-document.addEventListener('DOMContentLoaded', function() {
-    const cartControls = document.querySelector('.cart-controls');
-
-    if (cartControls) {
-        const addToCartBtn = cartControls.querySelector('#add-to-cart-btn');
-        const quantityCounter = cartControls.querySelector('#quantity-counter');
-        const decreaseBtn = quantityCounter.querySelector('[data-action="decrease"]');
-        const increaseBtn = quantityCounter.querySelector('[data-action="increase"]');
-        const quantityValueSpan = quantityCounter.querySelector('.quantity-value');
-
-        let quantity = 0;
-
-        function updateView() {
-            if (quantity === 0) {
-                // Если товара в корзине нет, показываем кнопку "Add to Cart"
-                addToCartBtn.classList.remove('is-hidden');
-                quantityCounter.classList.add('is-hidden');
-            } else {
-                // Если товар есть, показываем счетчик
-                addToCartBtn.classList.add('is-hidden');
-                quantityCounter.classList.remove('is-hidden');
-                quantityValueSpan.textContent = `${quantity} in cart`;
-            }
-        }
-
-        // Клик по "Add to Cart"
-        addToCartBtn.addEventListener('click', function() {
-            quantity = 1;
-            updateView();
-        });
-
-        // Клик по "-"
-        decreaseBtn.addEventListener('click', function() {
-            if (quantity > 0) {
-                quantity--;
-                updateView();
-            }
-        });
-
-        // Клик по "+"
-        increaseBtn.addEventListener('click', function() {
-            quantity++;
-            updateView();
-        });
-
-        // Инициализируем вид при загрузке страницы
-        updateView();
-    }
-});
-
-// --- 8. Логика для страницы корзины ---
-document.addEventListener('DOMContentLoaded', function() {
-    const cartItemsList = document.getElementById('cart-items-list');
-    const cartTotalPriceElem = document.getElementById('cart-total-price');
-
-    function updateCartTotal() {
-        let total = 0;
-        const cartItems = document.querySelectorAll('.cart-item');
-
-        cartItems.forEach(item => {
-            const itemTotalPrice = parseFloat(item.querySelector('[data-item-total-price]').textContent.replace('$', ''));
-            total += itemTotalPrice;
-        });
-
-        if (cartTotalPriceElem) {
-            cartTotalPriceElem.textContent = `$${total.toFixed(2)}`;
-        }
-    }
-
-    if (cartItemsList) {
-        cartItemsList.addEventListener('click', function(event) {
-            const target = event.target;
-            const cartItem = target.closest('.cart-item');
-            if (!cartItem) return;
-
-            const quantityValueElem = cartItem.querySelector('.quantity-value-cart');
-            const itemTotalPriceElem = cartItem.querySelector('[data-item-total-price]');
-            const basePrice = parseFloat(cartItem.dataset.price);
-            let quantity = parseInt(quantityValueElem.textContent);
-
-            // Обработка кнопок +/-
-            if (target.closest('[data-action="increase"]')) {
-                quantity++;
-            } else if (target.closest('[data-action="decrease"]')) {
-                if (quantity > 1) {
-                    quantity--;
+        // "Add to Cart" Button and Counter
+        const cartControls = document.querySelector('.cart-controls');
+        if (cartControls) {
+            const addToCartBtn = cartControls.querySelector('#add-to-cart-btn');
+            const quantityCounter = cartControls.querySelector('#quantity-counter');
+            const decreaseBtn = quantityCounter.querySelector('[data-action="decrease"]');
+            const increaseBtn = quantityCounter.querySelector('[data-action="increase"]');
+            const quantityValueSpan = quantityCounter.querySelector('.quantity-value');
+            let quantity = 0;
+            function updateView() {
+                if (quantity === 0) {
+                    addToCartBtn.classList.remove('is-hidden');
+                    quantityCounter.classList.add('is-hidden');
                 } else {
-                    // Если количество <= 1, удаляем товар
-                    cartItem.remove();
+                    addToCartBtn.classList.add('is-hidden');
+                    quantityCounter.classList.remove('is-hidden');
+                    quantityValueSpan.textContent = `${quantity} in cart`;
                 }
             }
+            addToCartBtn.addEventListener('click', function() { quantity = 1; updateView(); });
+            decreaseBtn.addEventListener('click', function() { if (quantity > 0) { quantity--; updateView(); } });
+            increaseBtn.addEventListener('click', function() { quantity++; updateView(); });
+            updateView();
+        }
+    }
 
-            // Обработка кнопки "Remove"
-            if(target.closest('[data-action="remove"]')) {
-                cartItem.remove();
-            }
-
-            // Обновляем значения в карточке
-            quantityValueElem.textContent = quantity;
-            itemTotalPriceElem.textContent = `$${(basePrice * quantity).toFixed(2)}`;
-
-            // Обновляем общую сумму
-            updateCartTotal();
-        });
-
-        // Первоначальный подсчет при загрузке
+    // --- Logic for Cart Page (cart.html) ---
+    const cartPageContent = document.querySelector('.cart-page-wrapper');
+    if (cartPageContent) {
+        const cartItemsList = document.getElementById('cart-items-list');
+        const cartTotalPriceElem = document.getElementById('cart-total-price');
+        function updateCartTotal() {
+            let total = 0;
+            document.querySelectorAll('.cart-item').forEach(item => {
+                const priceText = item.querySelector('[data-item-total-price]').textContent;
+                if (priceText) {
+                    total += parseFloat(priceText.replace('$', ''));
+                }
+            });
+            if (cartTotalPriceElem) cartTotalPriceElem.textContent = `$${total.toFixed(2)}`;
+        }
+        if (cartItemsList) {
+            cartItemsList.addEventListener('click', function(event) {
+                const cartItem = event.target.closest('.cart-item');
+                if (!cartItem) return;
+                const quantityElem = cartItem.querySelector('.quantity-value-cart');
+                const itemTotalElem = cartItem.querySelector('[data-item-total-price]');
+                const basePrice = parseFloat(cartItem.dataset.price);
+                let quantity = parseInt(quantityElem.textContent);
+                if (event.target.closest('[data-action="increase"]')) {
+                    quantity++;
+                } else if (event.target.closest('[data-action="decrease"]')) {
+                    quantity = quantity > 1 ? quantity - 1 : 0;
+                }
+                if (event.target.closest('[data-action="remove"]') || quantity === 0) {
+                    cartItem.remove();
+                } else {
+                    quantityElem.textContent = quantity;
+                    itemTotalElem.textContent = `$${(basePrice * quantity).toFixed(2)}`;
+                }
+                updateCartTotal();
+            });
+        }
         updateCartTotal();
     }
-});
 
-// --- 9. Логика для табов на странице аккаунта ---
-document.addEventListener('DOMContentLoaded', function() {
-    const tabs = document.querySelectorAll('.account-tab');
-    const tabPanes = document.querySelectorAll('.tab-pane');
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            // Убираем active классы у всех
-            tabs.forEach(item => item.classList.remove('active'));
-            tabPanes.forEach(pane => pane.classList.remove('active'));
-
-            // Добавляем active классы нужным
-            const targetPaneId = this.dataset.tabTarget;
-            const targetPane = document.querySelector(targetPaneId);
-
-            this.classList.add('active');
-            if(targetPane) {
-                targetPane.classList.add('active');
-            }
-        });
-    });
-});
-
-// --- 10. Логика для табов в Админ-панели ---
-document.addEventListener('DOMContentLoaded', function() {
-    const adminTabs = document.querySelectorAll('.admin-tab');
-    if (adminTabs.length > 0) {
-        // Мы можем переиспользовать тот же код, что и для табов аккаунта
-        const adminTabPanes = document.querySelectorAll('.admin-tab-pane'); // Предполагаем, что у панелей будет этот класс
-        adminTabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                adminTabs.forEach(item => item.classList.remove('active'));
-                // adminTabPanes.forEach(pane => pane.classList.remove('active')); // Пока панелей нет, комментируем
-
-                this.classList.add('active');
-                // const targetPaneId = this.dataset.tabTarget;
-                // const targetPane = document.querySelector(targetPaneId);
-                // if(targetPane) {
-                //     targetPane.classList.add('active');
-                // }
+    // --- Logic for Account and Admin Pages ---
+    const accountAdminWrapper = document.querySelector('.account-page-wrapper, .admin-page-wrapper');
+    if (accountAdminWrapper) {
+        // Account Page Tabs
+        const accountTabs = document.querySelectorAll('.account-tab');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+        if (accountTabs.length > 0 && tabPanes.length > 0) {
+            accountTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    accountTabs.forEach(item => item.classList.remove('active'));
+                    tabPanes.forEach(pane => pane.classList.remove('active'));
+                    const targetPane = document.querySelector(this.dataset.tabTarget);
+                    this.classList.add('active');
+                    if (targetPane) targetPane.classList.add('active');
+                });
             });
-        });
-    }
-});
+        }
 
-
-// --- 11. Логика для тегов категорий в админке ---
-document.addEventListener('DOMContentLoaded', function() {
-    const categoryTagsContainer = document.querySelector('.category-tags');
-    if (categoryTagsContainer) {
-        const categoryTags = categoryTagsContainer.querySelectorAll('.category-tag');
-        categoryTags.forEach(tag => {
-            tag.addEventListener('click', function() {
-                // Логика для выбора только одной категории
-                categoryTags.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
+        // Admin Panel - Category Tags
+        const categoryTagsContainer = document.querySelector('.category-tags');
+        if (categoryTagsContainer) {
+            categoryTagsContainer.addEventListener('click', function(e) {
+                const clickedTag = e.target.closest('.category-tag');
+                if (clickedTag) {
+                    categoryTagsContainer.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active'));
+                    clickedTag.classList.add('active');
+                }
             });
-        });
+        }
+
+        // Image Upload Simulation
+        const uploadButton = document.getElementById('upload-image-btn');
+        const fileInput = document.getElementById('image-upload-input');
+
+        if (uploadButton && fileInput) {
+            uploadButton.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    const placeholder = document.querySelector('.image-upload-placeholder');
+
+                    reader.onload = function(e) {
+                        placeholder.innerHTML = '';
+                        placeholder.style.backgroundImage = `url('${e.target.result}')`;
+                        placeholder.style.backgroundSize = 'cover';
+                        placeholder.style.backgroundPosition = 'center';
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
     }
 });

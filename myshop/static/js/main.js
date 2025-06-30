@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
         logoutButton.addEventListener('click', function(e) {
             e.preventDefault();
             localStorage.removeItem('isLoggedIn');
-            // Перенаправляем на главную страницу после выхода
             window.location.href = 'home.html';
         });
     }
